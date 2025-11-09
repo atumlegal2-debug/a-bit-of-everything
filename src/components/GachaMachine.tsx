@@ -140,7 +140,7 @@ export const GachaMachine = ({ inventory, onInventoryUpdate, onShowCollection }:
       {/* Gacha Display */}
       <div className="flex-1 rounded-xl border-4 border-primary/40 p-4 md:p-8"
            style={{ background: "var(--gradient-wood)" }}>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 h-full">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 h-full">
           {availableDrinks.map((drink, index) => (
             <div
               key={drink.id}

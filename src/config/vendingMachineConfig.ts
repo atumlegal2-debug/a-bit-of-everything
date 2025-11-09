@@ -3,6 +3,7 @@ import fantaNozEsquilo from "@/assets/fanta-noz-esquilo.png";
 import fantaCafeBrasil from "@/assets/fanta-cafe-brasil.png";
 import fantaAcademia from "@/assets/fanta-academia.png";
 import fantaApito from "@/assets/fanta-apito.png";
+import fantaOreo from "@/assets/fanta-oreo.png";
 
 export const availableDrinks: Drink[] = [
   {
@@ -12,8 +13,8 @@ export const availableDrinks: Drink[] = [
     health: 10,
     thirst: 30,
     phrases: [
-      "☕ \"Do grão ao gole: a energia do Brasil que você não toma, você sente!\"",
-      "💚 \"Nem todo super-herói usa capa. Alguns tomam uma Fanta Café do Brasil!\""
+      "Do grão ao gole: a energia do Brasil que você não toma, você sente!",
+      "Nem todo super-herói usa capa. Alguns tomam uma Fanta Café do Brasil!"
     ],
   },
   {
@@ -23,8 +24,8 @@ export const availableDrinks: Drink[] = [
     health: 20,
     thirst: 20,
     phrases: [
-      "💪 \"Depois do treino, a melhor repetição é tomar uma Fanta Academia!\"",
-      "🏋️ \"Não precisa de halter. Só levantar o copo e comemorar o 'gain'!\""
+      "Depois do treino, a melhor repetição é tomar uma Fanta Academia!",
+      "Não precisa de halter. Só levantar o copo e comemorar o 'gain'!"
     ],
   },
   {
@@ -34,8 +35,8 @@ export const availableDrinks: Drink[] = [
     health: 25,
     thirst: 35,
     phrases: [
-      "🚂 \"Tome uma Fanta Apito e faça a festa apitar!\"",
-      "😄 \"Se for assobiar de tão gostosa, avisa a gente!\""
+      "Tome uma Fanta Apito e faça a festa apitar!",
+      "Se for assobiar de tão gostosa, avisa a gente!"
     ],
   },
   {
@@ -45,8 +46,19 @@ export const availableDrinks: Drink[] = [
     health: 15,
     thirst: 25,
     phrases: [
-      "🐿️ \"Tão gostosa que até esquilo esquece onde esconde!\"",
-      "🥜 \"Sabor Noz de Esquilo: crocante de felicidade na primeira golada!\""
+      "Tão gostosa que até esquilo esquece onde esconde!",
+      "Sabor Noz de Esquilo: crocante de felicidade na primeira golada!"
+    ],
+  },
+  {
+    id: "fanta-oreo",
+    name: "Fanta Oreo",
+    image: fantaOreo,
+    health: 18,
+    thirst: 28,
+    phrases: [
+      "Fanta Oreo: O melhor jeito de \"molhar o biscoito\" sem precisar de leite!",
+      "Fanta Oreo: Aprovada até quem só recheia o biscoito e deixa a bolacha!"
     ],
   },
 ];

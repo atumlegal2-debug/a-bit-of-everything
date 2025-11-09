@@ -49,7 +49,7 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
       </div>
 
       {/* Collection Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
         {availableDrinks.map((drink) => {
           const isUnlocked = inventory.collection.includes(drink.id);
           const inventoryItem = inventory.drinks.find(d => d.drinkId === drink.id);
