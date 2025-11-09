@@ -4,21 +4,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import { toast } from "sonner";
 import { Sparkles } from "lucide-react";
-import {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSlot,
-} from "@/components/ui/input-otp";
 
 export default function Auth() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
-  const [pin, setPin] = useState("");
-  const [rememberMe, setRememberMe] = useState(true);
 
   useEffect(() => {
     // Verificar se já está logado
@@ -33,17 +26,11 @@ export default function Auth() {
     e.preventDefault();
     setLoading(true);
 
-    if (pin.length !== 4) {
-      toast.error("O PIN deve ter 4 dígitos.");
-      setLoading(false);
-      return;
-    }
-
     try {
       // Buscar usuário pelo username para validar se existe
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
-        .select("id, username")
+        .select("id, username, wallet_balance")
         .eq("username", username)
         .maybeSingle();
 
@@ -53,19 +40,20 @@ export default function Auth() {
         return;
       }
 
-      // Tentar login usando o padrão de email
+      // Login direto criando uma sessão (simplificado para uso interno)
+      // Usar email padrão: username@celular.local com senha padrão
       const { error } = await supabase.auth.signInWithPassword({
         email: `${username}@celular.local`,
-        password: pin,
+        password: "1234", // Senha padrão para todos os usuários
       });
 
       if (error) {
-        toast.error("PIN incorreto");
+        toast.error("Erro ao fazer login. Verifique se a conta está configurada.");
         setLoading(false);
         return;
       }
 
-      toast.success("Login realizado com sucesso!");
+      toast.success(`Bem-vindo, ${username}!`);
       navigate("/");
     } catch (error: any) {
       toast.error("Erro ao fazer login");
@@ -105,44 +93,13 @@ export default function Auth() {
               <Input
                 id="username"
                 type="text"
-                placeholder="seu-usuario"
+                placeholder="wonho1919"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => setUsername(e.target.value.toLowerCase())}
                 required
+                autoComplete="off"
+                className="text-center text-lg"
               />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="pin">PIN de 4 dígitos</Label>
-              <div className="flex justify-center pt-2">
-                <InputOTP
-                  id="pin"
-                  maxLength={4}
-                  value={pin}
-                  onChange={(value) => setPin(value)}
-                >
-                  <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
-                  </InputOTPGroup>
-                </InputOTP>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="remember"
-                checked={rememberMe}
-                onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-              />
-              <label
-                htmlFor="remember"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-              >
-                Manter-me conectado
-              </label>
             </div>
 
             <Button
