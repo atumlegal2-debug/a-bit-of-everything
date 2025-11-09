@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { availableDrinks } from "@/config/vendingMachineConfig";
 
 export const VendingMachine = () => {
   const navigate = useNavigate();
@@ -37,19 +38,24 @@ export const VendingMachine = () => {
 
         if (error) throw error;
 
-        // Converter para formato do inventário
-        const drinks = items?.map(item => ({
-          drinkId: item.item_name,
-          quantity: item.quantity,
-          drink: {
-            id: item.item_name,
-            name: item.item_name,
-            image: item.image_url || "",
-            health: 0,
-            thirst: 0,
-            phrases: [],
-          },
-        })) || [];
+        // Converter para formato do inventário, mapeando imagens do config
+        const drinks = items?.map(item => {
+          // Buscar a bebida no config para pegar a imagem correta
+          const drinkConfig = availableDrinks.find(d => d.id === item.item_name || d.name === item.item_name);
+          
+          return {
+            drinkId: item.item_name,
+            quantity: item.quantity,
+            drink: {
+              id: item.item_name,
+              name: item.item_name,
+              image: drinkConfig?.image || item.image_url || "",
+              health: drinkConfig?.health || 0,
+              thirst: drinkConfig?.thirst || 0,
+              phrases: drinkConfig?.phrases || [],
+            },
+          };
+        }) || [];
 
         const collection = [...new Set(items?.map(item => item.item_name) || [])];
 
