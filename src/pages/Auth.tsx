@@ -7,12 +7,17 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { Sparkles } from "lucide-react";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 export default function Auth() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [pin, setPin] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
 
   useEffect(() => {
@@ -27,6 +32,12 @@ export default function Auth() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    if (pin.length !== 4) {
+      toast.error("O PIN deve ter 4 dígitos.");
+      setLoading(false);
+      return;
+    }
 
     try {
       // Buscar usuário pelo username para validar se existe
@@ -45,11 +56,11 @@ export default function Auth() {
       // Tentar login usando o padrão de email
       const { error } = await supabase.auth.signInWithPassword({
         email: `${username}@celular.local`,
-        password,
+        password: pin,
       });
 
       if (error) {
-        toast.error("Senha incorreta");
+        toast.error("PIN incorreto");
         setLoading(false);
         return;
       }
@@ -88,13 +99,13 @@ export default function Auth() {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="username">Nome de Usuário</Label>
               <Input
                 id="username"
                 type="text"
-                placeholder="wonho1919"
+                placeholder="seu-usuario"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
@@ -102,15 +113,22 @@ export default function Auth() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Senha</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <Label htmlFor="pin">PIN de 4 dígitos</Label>
+              <div className="flex justify-center pt-2">
+                <InputOTP
+                  id="pin"
+                  maxLength={4}
+                  value={pin}
+                  onChange={(value) => setPin(value)}
+                >
+                  <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                    <InputOTPSlot index={3} />
+                  </InputOTPGroup>
+                </InputOTP>
+              </div>
             </div>
 
             <div className="flex items-center space-x-2">
