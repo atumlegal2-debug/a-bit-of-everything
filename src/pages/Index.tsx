@@ -127,34 +127,67 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-bg pb-32">
-      {/* Header */}
-      <header className="bg-card/80 backdrop-blur-sm border-b border-border sticky top-0 z-40 shadow-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-full bg-gradient-primary flex items-center justify-center">
-              <ShoppingBag className="h-6 w-6 text-primary-foreground" />
+    <div className="min-h-screen bg-gradient-to-b from-muted to-background p-4 md:p-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Vending Machine Frame */}
+        <div className="bg-card rounded-3xl shadow-2xl border-8 border-border/50 overflow-hidden">
+          {/* Machine Header with Logo */}
+          <div className="bg-gradient-primary p-6 text-center relative">
+            <div className="absolute inset-0 bg-black/10"></div>
+            <div className="relative">
+              <h1 className="text-4xl font-bold text-primary-foreground mb-2 tracking-wider">
+                VENDING MACHINE
+              </h1>
+              <p className="text-primary-foreground/90 text-sm font-medium">
+                Selecione o código do produto
+              </p>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Vending Machine</h1>
-              <p className="text-sm text-muted-foreground">Escolha seus produtos favoritos</p>
+          </div>
+
+          {/* Products Display Area - Glass Effect */}
+          <div className="bg-gradient-to-b from-secondary/30 to-secondary/10 p-6 md:p-8 relative">
+            {/* Glass reflection effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none"></div>
+            
+            {/* Product Grid with shelves */}
+            <div className="relative grid grid-cols-3 md:grid-cols-3 gap-3 md:gap-4 max-w-4xl mx-auto">
+              {products.map((product, index) => (
+                <div key={product.id} className="relative">
+                  {/* Product Code Label */}
+                  <div className="absolute -top-2 left-2 z-10 bg-primary text-primary-foreground px-2 py-1 rounded text-xs font-bold shadow-lg">
+                    {String.fromCharCode(65 + Math.floor(index / 3))}{(index % 3) + 1}
+                  </div>
+                  <ProductCard
+                    {...product}
+                    onAddToCart={handleAddToCart}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Horizontal shelf dividers */}
+            <div className="absolute inset-x-6 top-1/2 h-1 bg-border/30 pointer-events-none"></div>
+          </div>
+
+          {/* Machine Bottom Panel */}
+          <div className="bg-muted/50 border-t-4 border-border p-4">
+            <div className="flex items-center justify-between max-w-4xl mx-auto">
+              <div className="flex items-center gap-2">
+                <ShoppingBag className="h-5 w-5 text-primary" />
+                <span className="text-sm font-medium text-muted-foreground">
+                  Itens: {totalItems}
+                </span>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-muted-foreground">Total</p>
+                <p className="text-2xl font-bold text-primary">
+                  R$ {totalPrice.toFixed(2)}
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </header>
-
-      {/* Products Grid */}
-      <main className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              {...product}
-              onAddToCart={handleAddToCart}
-            />
-          ))}
-        </div>
-      </main>
+      </div>
 
       {/* Cart Summary */}
       <CartSummary
