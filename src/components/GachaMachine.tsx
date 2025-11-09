@@ -137,10 +137,10 @@ export const GachaMachine = ({ inventory, onInventoryUpdate, onShowCollection }:
         </Button>
       </div>
 
-      {/* Gacha Display */}
-      <div className="flex-1 rounded-xl border-4 border-primary/40 p-4 md:p-8"
+      {/* Gacha Display - Rolável */}
+      <div className="flex-1 rounded-xl border-4 border-primary/40 p-4 md:p-8 overflow-y-auto"
            style={{ background: "var(--gradient-wood)" }}>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 h-full">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
           {availableDrinks.map((drink, index) => (
             <div
               key={drink.id}
@@ -186,54 +186,57 @@ export const GachaMachine = ({ inventory, onInventoryUpdate, onShowCollection }:
         </div>
       </div>
 
-      {/* Spin Button */}
-      <Button
-        onClick={handleSpin}
-        disabled={isSpinning || inventory.coins < GACHA_COST}
-        size="lg"
-        className="relative w-full h-16 text-xl font-bold overflow-hidden border-4 border-primary/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl disabled:opacity-50 disabled:hover:scale-100"
-        style={{
-          background: isSpinning 
-            ? "var(--gradient-secondary)" 
-            : "var(--gradient-gold)",
-          boxShadow: isSpinning ? "none" : "var(--shadow-gold)",
-        }}
-      >
-        {!isSpinning && (
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
-        )}
-        <span className="relative z-10 flex items-center justify-center gap-2">
-          {isSpinning ? (
-            <>
-              <Sparkles className="h-6 w-6 animate-spin" />
-              Girando...
-            </>
-          ) : (
-            <>
-              🎲 Tentar a Sorte ({GACHA_COST} moedas)
-            </>
+      {/* Footer Fixo - Botão e Bolsa */}
+      <div className="space-y-3">
+        {/* Spin Button */}
+        <Button
+          onClick={handleSpin}
+          disabled={isSpinning || inventory.coins < GACHA_COST}
+          size="lg"
+          className="relative w-full h-16 text-xl font-bold overflow-hidden border-4 border-primary/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl disabled:opacity-50 disabled:hover:scale-100"
+          style={{
+            background: isSpinning 
+              ? "var(--gradient-secondary)" 
+              : "var(--gradient-gold)",
+            boxShadow: isSpinning ? "none" : "var(--shadow-gold)",
+          }}
+        >
+          {!isSpinning && (
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
           )}
-        </span>
-      </Button>
-
-      {/* Inventory Summary */}
-      <div className="rounded-lg border-2 border-border p-4" style={{ background: "var(--gradient-secondary)" }}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Package className="h-5 w-5 text-primary" />
-            <span className="font-bold text-foreground">Sua Bolsa:</span>
-          </div>
-          <div className="flex gap-4 text-sm">
-            {inventory.drinks.length === 0 ? (
-              <span className="text-muted-foreground">Vazia</span>
+          <span className="relative z-10 flex items-center justify-center gap-2">
+            {isSpinning ? (
+              <>
+                <Sparkles className="h-6 w-6 animate-spin" />
+                Girando...
+              </>
             ) : (
-              inventory.drinks.map((item) => (
-                <div key={item.drinkId} className="flex items-center gap-1">
-                  <img src={item.drink.image} alt="" className="w-6 h-6 object-contain" />
-                  <span className="font-bold text-foreground">x{item.quantity}</span>
-                </div>
-              ))
+              <>
+                🎲 Tentar a Sorte ({GACHA_COST} moedas)
+              </>
             )}
+          </span>
+        </Button>
+
+        {/* Inventory Summary */}
+        <div className="rounded-lg border-2 border-border p-4" style={{ background: "var(--gradient-secondary)" }}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Package className="h-5 w-5 text-primary" />
+              <span className="font-bold text-foreground">Sua Bolsa:</span>
+            </div>
+            <div className="flex gap-4 text-sm">
+              {inventory.drinks.length === 0 ? (
+                <span className="text-muted-foreground">Vazia</span>
+              ) : (
+                inventory.drinks.map((item) => (
+                  <div key={item.drinkId} className="flex items-center gap-1">
+                    <img src={item.drink.image} alt="" className="w-6 h-6 object-contain" />
+                    <span className="font-bold text-foreground">x{item.quantity}</span>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
