@@ -113,7 +113,6 @@ export default {
         "gradient-stone": "var(--gradient-stone)",
         "gradient-gold": "var(--gradient-gold)",
         "gradient-bg": "var(--gradient-bg)",
-        "gradient-radial": "radial-gradient(circle, var(--tw-gradient-stops))",
       },
       boxShadow: {
         card: "var(--shadow-card)",

@@ -31,112 +31,62 @@ export const NumericKeypad = ({ onCodeSubmit }: NumericKeypadProps) => {
   const buttons = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
 
   return (
-    <div className="flex w-48 flex-col p-5 shadow-deep border-l-8 relative overflow-hidden" style={{ 
-      background: "linear-gradient(135deg, hsl(25 25% 22%), hsl(20 30% 18%), hsl(25 25% 22%))",
-      borderColor: "hsl(45 90% 50% / 0.5)"
-    }}>
-      {/* Decorative pattern overlay */}
-      <div className="absolute inset-0 opacity-5" style={{ backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 10px, hsl(45 90% 50%) 10px, hsl(45 90% 50%) 11px)" }}></div>
-      
-      <div className="relative flex flex-col items-center gap-5">
-        {/* Elegant Display Panel */}
-        <div className="w-full relative">
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 font-display text-xs tracking-widest opacity-60" style={{ color: "hsl(45 95% 60%)" }}>
-            CÓDIGO
-          </div>
-          <div className="h-20 w-full rounded-xl p-3 text-center text-4xl font-display font-bold shadow-deep border-4 relative overflow-hidden shine-effect" 
-               style={{ 
-                 background: "linear-gradient(135deg, hsl(25 30% 15%), hsl(20 35% 12%))",
-                 borderColor: "hsl(45 90% 50% / 0.4)",
-                 color: "hsl(120 100% 50%)",
-                 textShadow: "0 0 10px hsl(120 100% 50%), 0 0 20px hsl(120 100% 40%)"
-               }}>
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-green-500/5 to-transparent"></div>
-            <div className="relative">{input || "--"}</div>
-          </div>
+    <div className="flex w-40 flex-col p-4 shadow-deep border-l-4 border-primary/40" style={{ background: "var(--gradient-secondary)" }}>
+      <div className="flex flex-col items-center gap-4">
+        {/* Medieval Display - Scroll Style */}
+        <div className="h-16 w-full rounded-md p-2 text-center text-3xl font-display font-bold shadow-inner border-2 border-primary/30" 
+             style={{ background: "var(--gradient-wood)", color: "hsl(45 95% 55%)" }}>
+          {input || "⚔️"}
         </div>
 
-        {/* Premium Keypad */}
-        <div className="grid w-full grid-cols-3 gap-2.5">
+        {/* Medieval Keypad - Stone Buttons */}
+        <div className="grid w-full grid-cols-3 gap-2">
           {buttons.map((num) => (
             <button
               key={num}
               onClick={() => handleNumberClick(num)}
-              className="relative flex aspect-square items-center justify-center rounded-lg shadow-lg active:scale-95 transition-all duration-200 text-base font-display font-bold overflow-hidden group"
-              style={{ 
-                background: "linear-gradient(135deg, hsl(30 15% 40%), hsl(25 20% 35%))",
-                color: "hsl(45 100% 60%)",
-                border: "2px solid hsl(45 90% 50% / 0.3)"
-              }}
+              className="flex aspect-square items-center justify-center rounded-md shadow-md active:shadow-inner transition-all text-sm font-display font-bold border-2 border-primary/20 hover:border-primary/60 hover:shadow-gold"
+              style={{ background: "var(--gradient-stone)", color: "hsl(45 90% 55%)" }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-              <span className="relative z-10 group-hover:scale-110 transition-transform">{num}</span>
+              {num}
             </button>
           ))}
           
-          {/* Clear button - Red accent */}
+          {/* Clear button */}
           <button
             onClick={handleClear}
-            className="relative flex aspect-square items-center justify-center rounded-lg shadow-lg active:scale-95 transition-all duration-200 overflow-hidden group"
-            style={{ 
-              background: "linear-gradient(135deg, hsl(0 60% 40%), hsl(0 65% 35%))",
-              border: "2px solid hsl(0 70% 50% / 0.4)"
-            }}
+            className="flex aspect-square items-center justify-center rounded-md shadow-md active:shadow-inner transition-all border-2 border-destructive/40 hover:border-destructive hover:shadow-gold"
+            style={{ background: "var(--gradient-stone)" }}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-destructive/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <X className="h-5 w-5 text-destructive-foreground relative z-10 group-hover:scale-110 transition-transform" />
+            <X className="h-4 w-4 text-destructive" />
           </button>
 
           {/* Zero button */}
           <button
             onClick={() => handleNumberClick("0")}
-            className="relative flex aspect-square items-center justify-center rounded-lg shadow-lg active:scale-95 transition-all duration-200 text-base font-display font-bold overflow-hidden group"
-            style={{ 
-              background: "linear-gradient(135deg, hsl(30 15% 40%), hsl(25 20% 35%))",
-              color: "hsl(45 100% 60%)",
-              border: "2px solid hsl(45 90% 50% / 0.3)"
-            }}
+            className="flex aspect-square items-center justify-center rounded-md shadow-md active:shadow-inner transition-all text-sm font-display font-bold border-2 border-primary/20 hover:border-primary/60 hover:shadow-gold"
+            style={{ background: "var(--gradient-stone)", color: "hsl(45 90% 55%)" }}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <span className="relative z-10 group-hover:scale-110 transition-transform">0</span>
+            0
           </button>
 
-          {/* Submit button - Golden highlight */}
+          {/* Submit button - Golden */}
           <button
             onClick={handleSubmit}
-            className="relative flex aspect-square items-center justify-center rounded-lg shadow-gold active:scale-95 transition-all duration-200 overflow-hidden group shine-effect"
-            style={{ 
-              background: "var(--gradient-gold)",
-              border: "2px solid hsl(140 50% 40%)"
-            }}
+            className="flex aspect-square items-center justify-center rounded-md shadow-gold active:shadow-inner transition-all border-2 border-accent/40 hover:border-accent"
+            style={{ background: "var(--gradient-gold)" }}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-            <Check className="h-6 w-6 relative z-10 group-hover:scale-110 transition-transform" style={{ color: "hsl(30 10% 10%)" }} />
+            <Check className="h-5 w-5" style={{ color: "hsl(30 10% 10%)" }} />
           </button>
         </div>
 
-        {/* Luxurious Coin Slot */}
-        <div className="mt-2 w-full relative">
-          <div className="absolute -top-3 left-1/2 -translate-x-1/2 font-display text-xs tracking-widest opacity-60" style={{ color: "hsl(45 95% 60%)" }}>
-            PAGAMENTO
-          </div>
-          <div className="h-28 w-full rounded-xl border-4 p-3 shadow-deep relative overflow-hidden" style={{ 
-            background: "linear-gradient(135deg, hsl(25 30% 20%), hsl(20 35% 15%))",
-            borderColor: "hsl(45 90% 50% / 0.4)"
-          }}>
-            <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent"></div>
-            <div className="relative h-full flex flex-col items-center justify-center gap-2">
-              <p className="text-center text-xs font-display font-bold tracking-[0.15em]" style={{ color: "hsl(45 100% 65%)" }}>
-                🪙 MOEDAS 🪙
-              </p>
-              <div className="w-full h-12 rounded-lg border-3 border-dashed flex items-center justify-center relative overflow-hidden group" style={{ 
-                borderColor: "hsl(45 90% 50% / 0.3)",
-                background: "linear-gradient(180deg, hsl(25 20% 10%), hsl(20 25% 8%))"
-              }}>
-                <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                <span className="text-3xl relative z-10 animate-bounce">⬇️</span>
-              </div>
-            </div>
+        {/* Coin Slot - Medieval Style */}
+        <div className="mt-4 h-24 w-full rounded-md border-2 border-primary/40 p-2 shadow-inner" style={{ background: "var(--gradient-wood)" }}>
+          <p className="text-center text-xs font-display font-bold tracking-wider text-primary">
+            🪙 MOEDAS 🪙
+          </p>
+          <div className="mt-2 h-8 w-full rounded border-2 border-dashed border-primary/30 flex items-center justify-center" style={{ background: "hsl(25 20% 12%)" }}>
+            <span className="text-2xl">⬇️</span>
           </div>
         </div>
       </div>
