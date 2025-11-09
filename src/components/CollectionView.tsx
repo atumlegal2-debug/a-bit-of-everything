@@ -142,38 +142,38 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
           {selectedDrink && (
             <div className="flex flex-col h-full max-h-[90vh]">
               {/* Header Moderno Premium */}
-              <div className="relative bg-gradient-to-br from-primary via-primary/90 to-primary/70 overflow-hidden">
-                {/* Padrão de Fundo Animado */}
-                <div className="absolute inset-0 opacity-10">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse" />
+              <div className="relative bg-gradient-to-br from-primary/95 via-primary/85 to-primary/75 overflow-hidden rounded-t-xl">
+                {/* Padrão de Fundo Sutil */}
+                <div className="absolute inset-0 opacity-5">
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.3),transparent_50%)]" />
                 </div>
                 
-                {/* Elementos Decorativos */}
-                <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
-                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
+                {/* Elementos Decorativos Minimalistas */}
+                <div className="absolute -top-8 -left-8 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
+                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
                 
-                <div className="relative z-10 px-6 py-6 space-y-5">
+                <div className="relative z-10 px-6 py-4 space-y-4">
                   {/* Botão Voltar Moderno */}
                   <Button
                     onClick={() => setSelectedDrink(null)}
                     variant="secondary"
-                    size="lg"
-                    className="bg-white/95 hover:bg-white text-primary border-0 font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5"
+                    size="sm"
+                    className="bg-white/90 hover:bg-white text-primary border-0 font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] rounded-lg"
                   >
-                    <ArrowLeft className="h-5 w-5 mr-2" />
-                    Voltar para Coleção
+                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    Voltar
                   </Button>
                   
                   {/* Nome da Bebida com Badge */}
-                  <div className="space-y-3">
+                  <div className="space-y-2.5">
                     <div className="flex justify-center">
-                      <span className="px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold text-white/90 uppercase tracking-wider border border-white/30">
+                      <span className="px-3 py-1 bg-white/15 backdrop-blur-md rounded-full text-xs font-semibold text-white/95 uppercase tracking-wide border border-white/20 shadow-sm">
                         Bebida Especial
                       </span>
                     </div>
                     
                     <DialogHeader>
-                      <DialogTitle className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white drop-shadow-2xl leading-tight">
+                      <DialogTitle className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-white drop-shadow-lg leading-tight px-4">
                         <span className="inline-block animate-fade-in">
                           {selectedDrink.name}
                         </span>
@@ -182,8 +182,8 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
                   </div>
                 </div>
                 
-                {/* Borda Inferior Decorativa */}
-                <div className="h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                {/* Borda Inferior Moderna */}
+                <div className="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent shadow-sm" />
               </div>
 
               {/* Conteúdo Scrollável */}
