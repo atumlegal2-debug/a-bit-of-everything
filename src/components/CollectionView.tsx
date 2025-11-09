@@ -137,23 +137,40 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
 
       {/* Dialog de Detalhes */}
       <Dialog open={!!selectedDrink} onOpenChange={() => setSelectedDrink(null)}>
-        <DialogContent className="max-w-2xl border-none p-0 gap-0 overflow-hidden bg-background/95 backdrop-blur-xl">
+        <DialogContent className="max-w-3xl max-h-[90vh] border-4 border-primary/40 p-0 gap-0 overflow-hidden"
+                       style={{ background: "var(--gradient-bg)" }}>
           {selectedDrink && (
-            <div className="relative">
-              {/* Header Moderno */}
-              <div className="relative px-8 py-6 bg-gradient-to-br from-primary/20 via-primary/10 to-transparent border-b border-border/50">
+            <div className="flex flex-col h-full max-h-[90vh]">
+              {/* Header Medieval Fixo */}
+              <div className="relative px-6 py-4 border-b-4 border-primary/30"
+                   style={{ background: "var(--gradient-gold)" }}>
+                <Button
+                  onClick={() => setSelectedDrink(null)}
+                  variant="outline"
+                  size="icon"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-background border-2 border-primary/40"
+                >
+                  <ArrowLeft className="h-5 w-5" />
+                </Button>
+                
                 <DialogHeader>
-                  <DialogTitle className="text-3xl font-bold text-center text-foreground">
-                    {selectedDrink.name}
+                  <DialogTitle className="text-2xl md:text-3xl font-bold text-center text-primary-foreground drop-shadow-lg">
+                    ⚜️ {selectedDrink.name} ⚜️
                   </DialogTitle>
                 </DialogHeader>
               </div>
 
-              <div className="p-8 space-y-8">
-                {/* Imagem e Stats lado a lado */}
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                  {/* Imagem */}
-                  <div className="relative aspect-square rounded-2xl p-6 bg-gradient-to-br from-primary/5 to-primary/10 border border-border/50 shadow-lg">
+              {/* Conteúdo Scrollável */}
+              <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+                {/* Grid: Imagem e Stats */}
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Imagem Medieval */}
+                  <div className="relative aspect-square rounded-xl p-6 border-4 border-primary/40 shadow-2xl"
+                       style={{ 
+                         background: "var(--gradient-wood)",
+                         boxShadow: "var(--shadow-gold)"
+                       }}>
+                    <div className="absolute top-2 left-2 text-4xl opacity-20">🏺</div>
                     <img
                       src={selectedDrink.image}
                       alt={selectedDrink.name}
@@ -161,56 +178,88 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
                     />
                   </div>
 
-                  {/* Stats */}
+                  {/* Stats Medieval */}
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-foreground mb-4">Atributos</h3>
+                    <h3 className="text-xl font-bold text-transparent bg-clip-text mb-4"
+                        style={{ backgroundImage: "var(--gradient-gold)" }}>
+                      ⚔️ Atributos Mágicos
+                    </h3>
                     
-                    <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-red-500/10 to-red-500/5 border border-red-500/20">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500/20">
-                        <span className="text-2xl">❤️</span>
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground font-medium">Saúde</p>
-                        <p className="text-2xl font-bold text-red-600 dark:text-red-400">+{selectedDrink.health}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-blue-500/5 border border-blue-500/20">
-                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20">
-                        <span className="text-2xl">💧</span>
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground font-medium">Sede</p>
-                        <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">+{selectedDrink.thirst}</p>
-                      </div>
-                    </div>
-
-                    {/* Quantidade */}
-                    {inventory.drinks.find(d => d.drinkId === selectedDrink.id) && (
-                      <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20">
-                        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/20">
-                          <Package className="w-6 h-6 text-primary" />
+                    {/* Saúde */}
+                    <div className="relative p-4 rounded-xl border-3 border-red-500/40 overflow-hidden"
+                         style={{ background: "var(--gradient-wood)" }}>
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 to-transparent" />
+                      <div className="relative flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-full flex items-center justify-center border-2 border-red-500/50"
+                             style={{ background: "var(--gradient-stone)" }}>
+                          <span className="text-3xl">❤️</span>
                         </div>
                         <div className="flex-1">
-                          <p className="text-sm text-muted-foreground font-medium">Inventário</p>
-                          <p className="text-2xl font-bold text-primary">
-                            x{inventory.drinks.find(d => d.drinkId === selectedDrink.id)?.quantity}
-                          </p>
+                          <p className="text-sm text-red-600 dark:text-red-400 font-bold uppercase tracking-wider">Saúde</p>
+                          <p className="text-3xl font-bold text-red-600 dark:text-red-400">+{selectedDrink.health}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Sede */}
+                    <div className="relative p-4 rounded-xl border-3 border-blue-500/40 overflow-hidden"
+                         style={{ background: "var(--gradient-wood)" }}>
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-transparent" />
+                      <div className="relative flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-full flex items-center justify-center border-2 border-blue-500/50"
+                             style={{ background: "var(--gradient-stone)" }}>
+                          <span className="text-3xl">💧</span>
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm text-blue-600 dark:text-blue-400 font-bold uppercase tracking-wider">Sede</p>
+                          <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">+{selectedDrink.thirst}</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Inventário */}
+                    {inventory.drinks.find(d => d.drinkId === selectedDrink.id) && (
+                      <div className="relative p-4 rounded-xl border-4 border-primary/40 overflow-hidden"
+                           style={{ 
+                             background: "var(--gradient-gold)",
+                             boxShadow: "var(--shadow-gold)"
+                           }}>
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/10 via-transparent to-white/10 animate-pulse" />
+                        <div className="relative flex items-center gap-4">
+                          <div className="w-14 h-14 rounded-full flex items-center justify-center border-2 border-primary/50 bg-background/20">
+                            <Package className="w-7 h-7 text-primary-foreground" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm text-primary-foreground/80 font-bold uppercase tracking-wider">Inventário</p>
+                            <p className="text-3xl font-bold text-primary-foreground">
+                              x{inventory.drinks.find(d => d.drinkId === selectedDrink.id)?.quantity}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     )}
                   </div>
                 </div>
 
-                {/* Frases com Design Limpo */}
-                <div className="space-y-3">
-                  <h3 className="text-lg font-semibold text-foreground mb-3">Frases Especiais</h3>
+                {/* Frases em Pergaminho */}
+                <div className="space-y-4">
+                  <h3 className="text-xl font-bold text-transparent bg-clip-text flex items-center gap-2"
+                      style={{ backgroundImage: "var(--gradient-gold)" }}>
+                    📜 Lendas e Dizeres
+                  </h3>
+                  
                   {selectedDrink.phrases.map((phrase, index) => (
                     <div 
                       key={index} 
-                      className="p-5 rounded-xl bg-gradient-to-br from-secondary/50 to-secondary/30 border border-border/50 hover:border-primary/30 transition-all duration-300"
+                      className="relative p-5 rounded-xl border-3 border-primary/40 shadow-lg"
+                      style={{ 
+                        background: "var(--gradient-secondary)",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.15)"
+                      }}
                     >
-                      <p className="text-base text-foreground leading-relaxed font-medium">
+                      <div className="absolute top-3 left-3 text-3xl opacity-10">📜</div>
+                      <div className="absolute bottom-3 right-3 text-3xl opacity-10 rotate-180">📜</div>
+                      <p className="relative text-base md:text-lg text-foreground leading-relaxed font-medium text-center px-8 py-2">
                         "{phrase}"
                       </p>
                     </div>
