@@ -141,25 +141,39 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
                        style={{ background: "var(--gradient-bg)" }}>
           {selectedDrink && (
             <div className="flex flex-col h-full max-h-[90vh]">
-              {/* Header Medieval Fixo com Botão de Voltar */}
-              <div className="relative px-6 py-6 border-b-4 border-primary/30"
-                   style={{ background: "var(--gradient-gold)" }}>
-                <div className="flex items-center justify-between mb-3">
+              {/* Header Moderno com Gradiente */}
+              <div className="relative px-6 py-8 border-b-2 border-border/30 overflow-hidden"
+                   style={{ 
+                     background: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.8) 50%, hsl(var(--primary) / 0.6) 100%)",
+                   }}>
+                {/* Efeito de Brilho Animado */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse opacity-50" />
+                
+                {/* Decoração de Cantos */}
+                <div className="absolute top-4 left-4 text-3xl opacity-30">✨</div>
+                <div className="absolute top-4 right-4 text-3xl opacity-30">✨</div>
+                
+                <div className="relative z-10 space-y-4">
+                  {/* Botão Voltar Moderno */}
                   <Button
                     onClick={() => setSelectedDrink(null)}
-                    variant="default"
-                    className="flex items-center gap-2 bg-background/90 hover:bg-background text-foreground border-2 border-primary/50 font-bold"
+                    variant="secondary"
+                    size="lg"
+                    className="flex items-center gap-2 bg-background/95 hover:bg-background text-foreground border-2 border-border/50 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
                   >
                     <ArrowLeft className="h-5 w-5" />
                     Voltar
                   </Button>
+                  
+                  {/* Nome da Bebida com Estilo */}
+                  <DialogHeader>
+                    <DialogTitle className="text-3xl md:text-4xl font-bold text-center text-primary-foreground drop-shadow-2xl">
+                      <span className="inline-block animate-fade-in">
+                        {selectedDrink.name}
+                      </span>
+                    </DialogTitle>
+                  </DialogHeader>
                 </div>
-                
-                <DialogHeader>
-                  <DialogTitle className="text-2xl md:text-3xl font-bold text-center text-primary-foreground drop-shadow-lg">
-                    ⚜️ {selectedDrink.name} ⚜️
-                  </DialogTitle>
-                </DialogHeader>
               </div>
 
               {/* Conteúdo Scrollável */}
