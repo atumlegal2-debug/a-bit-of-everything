@@ -9,14 +9,93 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 interface CollectionViewProps {
   inventory: PlayerInventory;
+  onInventoryUpdate: (inventory: PlayerInventory) => void;
   onBack: () => void;
 }
 
-export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
+export const CollectionView = ({ inventory, onInventoryUpdate, onBack }: CollectionViewProps) => {
+  const { user } = useAuth();
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
+  const [consuming, setConsuming] = useState(false);
+
+  const handleConsume = async (drink: Drink) => {
+    if (!user || consuming) return;
+
+    const inventoryItem = inventory.drinks.find(d => d.drinkId === drink.id);
+    if (!inventoryItem || inventoryItem.quantity <= 0) return;
+
+    setConsuming(true);
+
+    try {
+      // Atualizar quantidade no Supabase
+      const newQuantity = inventoryItem.quantity - 1;
+
+      if (newQuantity === 0) {
+        // Remover item
+        await supabase
+          .from("inventory_items")
+          .delete()
+          .eq("profile_id", user.id)
+          .eq("item_name", drink.name);
+      } else {
+        // Atualizar quantidade
+        await supabase
+          .from("inventory_items")
+          .update({ quantity: newQuantity })
+          .eq("profile_id", user.id)
+          .eq("item_name", drink.name);
+      }
+
+      // Atualizar stats do jogador
+      const { data: stats } = await supabase
+        .from("player_stats")
+        .select("*")
+        .eq("profile_id", user.id)
+        .single();
+
+      if (stats) {
+        await supabase
+          .from("player_stats")
+          .update({
+            health: Math.min(100, stats.health + drink.health),
+            thirst: Math.min(100, stats.thirst + drink.thirst),
+          })
+          .eq("profile_id", user.id);
+      }
+
+      // Atualizar inventário local
+      const updatedDrinks = newQuantity === 0
+        ? inventory.drinks.filter(d => d.drinkId !== drink.id)
+        : inventory.drinks.map(d =>
+            d.drinkId === drink.id
+              ? { ...d, quantity: newQuantity }
+              : d
+          );
+
+      onInventoryUpdate({
+        ...inventory,
+        drinks: updatedDrinks,
+      });
+
+      toast.success(`${drink.name} consumida!`, {
+        description: `+${drink.health} ❤️ | +${drink.thirst} 💧`,
+      });
+
+      setSelectedDrink(null);
+    } catch (error: any) {
+      console.error("Erro ao consumir bebida:", error);
+      toast.error("Erro ao consumir bebida");
+    } finally {
+      setConsuming(false);
+    }
+  };
 
   return (
     <div className="flex flex-col h-full w-full max-w-5xl mx-auto p-4 gap-6">
@@ -287,6 +366,22 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
                     </div>
                   ))}
                 </div>
+
+                {/* Botão de consumir */}
+                {inventory.drinks.find(d => d.drinkId === selectedDrink.id) && (
+                  <Button
+                    onClick={() => handleConsume(selectedDrink)}
+                    disabled={consuming}
+                    size="lg"
+                    className="w-full font-bold text-lg"
+                    style={{
+                      background: "var(--gradient-gold)",
+                      boxShadow: "var(--shadow-gold)",
+                    }}
+                  >
+                    {consuming ? "Consumindo..." : "🍹 Consumir Bebida"}
+                  </Button>
+                )}
               </div>
             </div>
           )}
