@@ -1,62 +1,35 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
 import { toast } from "sonner";
 import { Sparkles } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Auth() {
   const navigate = useNavigate();
+  const { user, signIn } = useAuth();
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
 
   useEffect(() => {
     // Verificar se já está logado
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        navigate("/");
-      }
-    });
-  }, [navigate]);
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Buscar usuário pelo username para validar se existe
-      const { data: profile, error: profileError } = await supabase
-        .from("profiles")
-        .select("id, username, wallet_balance")
-        .eq("username", username)
-        .maybeSingle();
-
-      if (profileError || !profile) {
-        toast.error("Usuário não encontrado");
-        setLoading(false);
-        return;
-      }
-
-      // Login direto criando uma sessão (simplificado para uso interno)
-      // Usar email padrão: username@celular.local com senha padrão
-      const { error } = await supabase.auth.signInWithPassword({
-        email: `${username}@celular.local`,
-        password: "1234", // Senha padrão para todos os usuários
-      });
-
-      if (error) {
-        toast.error("Erro ao fazer login. Verifique se a conta está configurada.");
-        setLoading(false);
-        return;
-      }
-
-      toast.success(`Bem-vindo, ${username}!`);
+      const user = await signIn(username.toLowerCase().trim());
+      toast.success(`Bem-vindo, ${user.username}!`);
       navigate("/");
     } catch (error: any) {
-      toast.error("Erro ao fazer login");
+      toast.error(error.message || "Usuário não encontrado");
     } finally {
       setLoading(false);
     }

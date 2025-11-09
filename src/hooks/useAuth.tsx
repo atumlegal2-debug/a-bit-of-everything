@@ -1,40 +1,56 @@
 import { useState, useEffect } from "react";
-import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
+interface LocalUser {
+  id: string;
+  username: string;
+}
+
 export const useAuth = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<LocalUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Configurar listener PRIMEIRO
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setLoading(false);
+    // Verificar se há sessão local
+    const storedUser = localStorage.getItem("celular_user");
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch (error) {
+        localStorage.removeItem("celular_user");
       }
-    );
-
-    // DEPOIS verificar sessão existente
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    return () => subscription.unsubscribe();
+    }
+    setLoading(false);
   }, []);
 
+  const signIn = async (username: string) => {
+    // Buscar usuário na tabela profiles
+    const { data: profile, error } = await supabase
+      .from("profiles")
+      .select("id, username")
+      .eq("username", username)
+      .maybeSingle();
+
+    if (error || !profile) {
+      throw new Error("Usuário não encontrado");
+    }
+
+    const localUser = { id: profile.id, username: profile.username };
+    localStorage.setItem("celular_user", JSON.stringify(localUser));
+    setUser(localUser);
+    return localUser;
+  };
+
   const signOut = async () => {
-    await supabase.auth.signOut();
+    localStorage.removeItem("celular_user");
+    setUser(null);
   };
 
   return {
     user,
-    session,
+    session: user ? { user } : null,
     loading,
+    signIn,
     signOut,
   };
 };
