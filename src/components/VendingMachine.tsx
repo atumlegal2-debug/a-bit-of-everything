@@ -22,17 +22,18 @@ export const VendingMachine = () => {
   });
   const [loading, setLoading] = useState(true);
 
-  // Carregar inventário do Supabase
+  // Carregar inventário do Supabase (apenas bebidas ganhas na taverna)
   useEffect(() => {
     const loadInventory = async () => {
       if (!user || !profile) return;
 
       try {
-        // Carregar itens do inventário
+        // Carregar APENAS itens do tipo "drink" que foram ganhos na Taverna da Sorte
         const { data: items, error } = await supabase
           .from("inventory_items")
           .select("*")
-          .eq("profile_id", user.id);
+          .eq("profile_id", user.id)
+          .eq("item_type", "drink");
 
         if (error) throw error;
 

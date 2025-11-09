@@ -218,21 +218,25 @@ export const GachaMachine = ({ inventory, onInventoryUpdate, onShowCollection }:
           </span>
         </Button>
 
-        {/* Inventory Summary */}
-        <div className="rounded-lg border-2 border-border p-4" style={{ background: "var(--gradient-secondary)" }}>
-          <div className="flex items-center justify-between">
+        {/* Inventory Summary - Apenas bebidas ganhas na Taverna */}
+        <div className="rounded-lg border-2 border-border p-3 md:p-4" style={{ background: "var(--gradient-secondary)" }}>
+          <div className="flex flex-col md:flex-row md:items-center gap-3 md:justify-between">
             <div className="flex items-center gap-2">
-              <Package className="h-5 w-5 text-primary" />
+              <Package className="h-5 w-5 text-primary flex-shrink-0" />
               <span className="font-bold text-foreground">Sua Bolsa:</span>
             </div>
-            <div className="flex gap-4 text-sm">
+            <div className="flex flex-wrap gap-2 md:gap-4 text-sm">
               {inventory.drinks.length === 0 ? (
                 <span className="text-muted-foreground">Vazia</span>
               ) : (
                 inventory.drinks.map((item) => (
-                  <div key={item.drinkId} className="flex items-center gap-1">
-                    <img src={item.drink.image} alt="" className="w-6 h-6 object-contain" />
-                    <span className="font-bold text-foreground">x{item.quantity}</span>
+                  <div key={item.drinkId} className="flex items-center gap-1 px-2 py-1 rounded-md bg-background/30 border border-border">
+                    <img 
+                      src={item.drink.image} 
+                      alt={item.drink.name} 
+                      className="w-8 h-8 md:w-6 md:h-6 object-contain flex-shrink-0" 
+                    />
+                    <span className="font-bold text-foreground whitespace-nowrap">x{item.quantity}</span>
                   </div>
                 ))
               )}
