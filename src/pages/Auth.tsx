@@ -10,12 +10,9 @@ import { Sparkles } from "lucide-react";
 
 export default function Auth() {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
 
   useEffect(() => {
@@ -27,50 +24,40 @@ export default function Auth() {
     });
   }, [navigate]);
 
-  const handleAuth = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
+      // Buscar usuário pelo username para validar se existe
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("id, username")
+        .eq("username", username)
+        .maybeSingle();
 
-        if (error) throw error;
-
-        toast.success("Login realizado com sucesso!");
-        navigate("/");
-      } else {
-        // Validação básica
-        if (!name || !username) {
-          toast.error("Preencha todos os campos!");
-          setLoading(false);
-          return;
-        }
-
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: `${window.location.origin}/`,
-            data: {
-              name,
-              username,
-            },
-          },
-        });
-
-        if (error) throw error;
-
-        toast.success("Conta criada com sucesso!", {
-          description: "Você já pode fazer login.",
-        });
-        setIsLogin(true);
+      if (profileError || !profile) {
+        toast.error("Usuário não encontrado");
+        setLoading(false);
+        return;
       }
+
+      // Tentar login usando o padrão de email
+      const { error } = await supabase.auth.signInWithPassword({
+        email: `${username}@celular.local`,
+        password,
+      });
+
+      if (error) {
+        toast.error("Senha incorreta");
+        setLoading(false);
+        return;
+      }
+
+      toast.success("Login realizado com sucesso!");
+      navigate("/");
     } catch (error: any) {
-      toast.error(error.message || "Erro ao autenticar");
+      toast.error("Erro ao fazer login");
     } finally {
       setLoading(false);
     }
@@ -96,47 +83,20 @@ export default function Auth() {
               TAVERNA DA SORTE
             </h1>
             <p className="text-muted-foreground">
-              {isLogin ? "Entre para jogar" : "Crie sua conta"}
+              Entre com sua conta para jogar
             </p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleAuth} className="space-y-4">
-            {!isLogin && (
-              <>
-                <div className="space-y-2">
-                  <Label htmlFor="name">Nome Completo</Label>
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder="Seu nome"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required={!isLogin}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="username">Nome de Usuário</Label>
-                  <Input
-                    id="username"
-                    type="text"
-                    placeholder="seu_usuario"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required={!isLogin}
-                  />
-                </div>
-              </>
-            )}
-
+          <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="username">Nome de Usuário</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="seu@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="username"
+                type="text"
+                placeholder="wonho1919"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>
@@ -150,25 +110,22 @@ export default function Auth() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={6}
               />
             </div>
 
-            {isLogin && (
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="remember"
-                  checked={rememberMe}
-                  onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-                />
-                <label
-                  htmlFor="remember"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  Manter-me conectado
-                </label>
-              </div>
-            )}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="remember"
+                checked={rememberMe}
+                onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+              />
+              <label
+                htmlFor="remember"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
+                Manter-me conectado
+              </label>
+            </div>
 
             <Button
               type="submit"
@@ -180,22 +137,9 @@ export default function Auth() {
                 boxShadow: "var(--shadow-gold)",
               }}
             >
-              {loading ? "Carregando..." : isLogin ? "Entrar" : "Criar Conta"}
+              {loading ? "Carregando..." : "Entrar"}
             </Button>
           </form>
-
-          {/* Toggle */}
-          <div className="text-center">
-            <button
-              type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-primary hover:underline"
-            >
-              {isLogin
-                ? "Não tem conta? Cadastre-se"
-                : "Já tem conta? Faça login"}
-            </button>
-          </div>
         </div>
       </div>
     </div>
