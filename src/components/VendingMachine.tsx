@@ -97,12 +97,27 @@ export const VendingMachine = ({ config }: VendingMachineProps) => {
   };
 
   return (
-    <div className="relative flex h-screen w-full flex-col overflow-hidden bg-vending-black">
-      <div className="flex h-full w-full">
-        {/* Main Product Display Area */}
-        <div className="relative flex-[3] bg-gradient-to-br from-gray-300 to-gray-500 p-2 shadow-inner">
-          <div className="relative h-full w-full overflow-y-auto rounded-lg bg-vending-black p-2 shadow-lg">
-            <div className="grid grid-cols-3 gap-2">
+    <div className="relative flex h-screen w-full flex-col overflow-hidden" style={{ background: "var(--gradient-bg)" }}>
+      {/* Medieval Header Banner */}
+      <div className="absolute top-0 left-0 right-0 z-20 h-16 bg-gradient-to-b from-secondary via-secondary/95 to-transparent border-b-4 border-primary/50 shadow-gold">
+        <div className="flex items-center justify-center h-full px-4">
+          <h1 className="font-display text-2xl md:text-3xl font-bold tracking-wider text-transparent bg-clip-text" style={{ backgroundImage: "var(--gradient-gold)" }}>
+            ⚔️ TAVERNA DO MERCADOR ⚔️
+          </h1>
+        </div>
+      </div>
+
+      <div className="flex h-full w-full pt-16">
+        {/* Main Product Display Area - Medieval Stone Frame */}
+        <div className="relative flex-[3] p-3" style={{ background: "var(--gradient-stone)" }}>
+          <div className="relative h-full w-full overflow-y-auto rounded-lg p-3 shadow-deep border-4 border-secondary/50" style={{ background: "var(--gradient-wood)" }}>
+            {/* Medieval Corner Decorations */}
+            <div className="absolute top-1 left-1 w-8 h-8 border-l-4 border-t-4 border-primary/60 rounded-tl-lg"></div>
+            <div className="absolute top-1 right-1 w-8 h-8 border-r-4 border-t-4 border-primary/60 rounded-tr-lg"></div>
+            <div className="absolute bottom-1 left-1 w-8 h-8 border-l-4 border-b-4 border-primary/60 rounded-bl-lg"></div>
+            <div className="absolute bottom-1 right-1 w-8 h-8 border-r-4 border-b-4 border-primary/60 rounded-br-lg"></div>
+            
+            <div className="grid grid-cols-3 gap-3 p-2">
               {config.slots.map((slot) => (
                 <VendingSlot
                   key={slot.id}
@@ -115,21 +130,21 @@ export const VendingMachine = ({ config }: VendingMachineProps) => {
           </div>
         </div>
 
-        {/* Control Panel */}
+        {/* Control Panel - Medieval Style */}
         <NumericKeypad onCodeSubmit={handleCodeSubmit} />
       </div>
 
-      {/* Pickup Area */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 h-28 bg-vending-black p-4 shadow-2xl">
-        <div className="h-16 w-full rounded-lg bg-gradient-to-r from-gray-600 via-gray-400 to-gray-600 p-1 shadow-inner">
-          <div className="h-full w-full rounded-md bg-vending-black flex items-center justify-center">
-            <p className="text-sm text-green-400 font-mono">
-              {totalItems > 0 ? `${totalItems} item(s) - R$ ${totalPrice.toFixed(2)}` : "Pronto para venda"}
+      {/* Pickup Area - Medieval Chest Style */}
+      <div className="absolute bottom-0 left-0 right-0 z-10 h-32 p-4 shadow-deep border-t-4 border-primary/40" style={{ background: "var(--gradient-secondary)" }}>
+        <div className="h-20 w-full rounded-lg p-1 shadow-inner border-2 border-primary/30" style={{ background: "var(--gradient-stone)" }}>
+          <div className="h-full w-full rounded-md flex items-center justify-center border-2 border-dashed border-primary/20" style={{ background: "var(--gradient-wood)" }}>
+            <p className="font-medieval text-sm font-semibold text-primary drop-shadow-lg">
+              {totalItems > 0 ? `🏆 ${totalItems} Item(s) • ${totalPrice.toFixed(2)} Moedas de Ouro` : "⚔️ Aguardando Pedido ⚔️"}
             </p>
           </div>
         </div>
-        <div className="mt-1 text-center text-xs font-bold uppercase text-gray-400">
-          Puxe para recolher
+        <div className="mt-1 text-center text-xs font-display font-bold uppercase tracking-wider text-primary/70">
+          ⬇️ Cofre de Retirada ⬇️
         </div>
       </div>
     </div>

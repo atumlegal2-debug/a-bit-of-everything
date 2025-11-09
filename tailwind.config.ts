@@ -13,6 +13,11 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+        display: ["Cinzel", "serif"],
+        medieval: ["Playfair Display", "serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -103,12 +108,17 @@ export default {
       },
       backgroundImage: {
         "gradient-primary": "var(--gradient-primary)",
-        "gradient-accent": "var(--gradient-accent)",
+        "gradient-secondary": "var(--gradient-secondary)",
+        "gradient-wood": "var(--gradient-wood)",
+        "gradient-stone": "var(--gradient-stone)",
+        "gradient-gold": "var(--gradient-gold)",
         "gradient-bg": "var(--gradient-bg)",
       },
       boxShadow: {
         card: "var(--shadow-card)",
         product: "var(--shadow-product)",
+        gold: "var(--shadow-gold)",
+        deep: "var(--shadow-deep)",
       },
     },
   },
