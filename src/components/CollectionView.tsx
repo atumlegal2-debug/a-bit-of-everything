@@ -1,7 +1,14 @@
-import { PlayerInventory } from "@/types/vending";
+import { useState } from "react";
+import { PlayerInventory, Drink } from "@/types/vending";
 import { availableDrinks } from "@/config/vendingMachineConfig";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Lock } from "lucide-react";
+import { ArrowLeft, Lock, X } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface CollectionViewProps {
   inventory: PlayerInventory;
@@ -9,6 +16,8 @@ interface CollectionViewProps {
 }
 
 export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
+  const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
+
   return (
     <div className="flex flex-col h-full w-full max-w-5xl mx-auto p-4 gap-6">
       {/* Header */}
@@ -49,7 +58,10 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
           return (
             <div
               key={drink.id}
-              className="relative rounded-xl p-4 border-4 border-primary/30 transition-all"
+              onClick={() => isUnlocked && setSelectedDrink(drink)}
+              className={`relative rounded-xl p-4 border-4 border-primary/30 transition-all ${
+                isUnlocked ? 'cursor-pointer hover:scale-105 hover:shadow-xl' : ''
+              }`}
               style={{
                 background: isUnlocked ? "var(--gradient-wood)" : "var(--gradient-stone)",
                 filter: isUnlocked ? 'none' : 'grayscale(100%) brightness(0.3)',
@@ -122,6 +134,60 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
           <p className="text-sm text-muted-foreground">Completado</p>
         </div>
       </div>
+
+      {/* Dialog de Detalhes */}
+      <Dialog open={!!selectedDrink} onOpenChange={() => setSelectedDrink(null)}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-center">
+              {selectedDrink?.name}
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedDrink && (
+            <div className="space-y-6">
+              {/* Imagem Grande */}
+              <div className="relative w-full aspect-square rounded-xl p-8"
+                   style={{ background: "var(--gradient-wood)" }}>
+                <img
+                  src={selectedDrink.image}
+                  alt={selectedDrink.name}
+                  className="w-full h-full object-contain drop-shadow-2xl"
+                />
+              </div>
+
+              {/* Stats */}
+              <div className="flex justify-center gap-3">
+                <span className="flex items-center gap-2 px-4 py-2 rounded-lg bg-red-500/20 border-2 border-red-500/50 text-red-600 dark:text-red-400 font-bold">
+                  ❤️ {selectedDrink.health} Saúde
+                </span>
+                <span className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500/20 border-2 border-blue-500/50 text-blue-600 dark:text-blue-400 font-bold">
+                  💧 {selectedDrink.thirst} Sede
+                </span>
+              </div>
+
+              {/* Frases */}
+              <div className="space-y-3 p-4 rounded-lg border-2 border-border"
+                   style={{ background: "var(--gradient-secondary)" }}>
+                {selectedDrink.phrases.map((phrase, index) => (
+                  <p key={index} className="text-center text-sm md:text-base font-medium text-foreground italic">
+                    {phrase}
+                  </p>
+                ))}
+              </div>
+
+              {/* Quantidade */}
+              {inventory.drinks.find(d => d.drinkId === selectedDrink.id) && (
+                <div className="text-center p-3 rounded-lg bg-primary/10 border-2 border-primary/30">
+                  <p className="text-lg font-bold text-primary">
+                    Você possui: x{inventory.drinks.find(d => d.drinkId === selectedDrink.id)?.quantity}
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

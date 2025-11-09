@@ -6,18 +6,15 @@ import fantaApito from "@/assets/fanta-apito.png";
 
 export const availableDrinks: Drink[] = [
   {
-    id: "fanta-noz-esquilo",
-    name: "Fanta Noz de Esquilo",
-    image: fantaNozEsquilo,
-    health: 15,
-    thirst: 25,
-  },
-  {
     id: "fanta-cafe-brasil",
     name: "Fanta Café do Brasil",
     image: fantaCafeBrasil,
     health: 10,
     thirst: 30,
+    phrases: [
+      "☕ \"Do grão ao gole: a energia do Brasil que você não toma, você sente!\"",
+      "💚 \"Nem todo super-herói usa capa. Alguns tomam uma Fanta Café do Brasil!\""
+    ],
   },
   {
     id: "fanta-academia",
@@ -25,6 +22,10 @@ export const availableDrinks: Drink[] = [
     image: fantaAcademia,
     health: 20,
     thirst: 20,
+    phrases: [
+      "💪 \"Depois do treino, a melhor repetição é tomar uma Fanta Academia!\"",
+      "🏋️ \"Não precisa de halter. Só levantar o copo e comemorar o 'gain'!\""
+    ],
   },
   {
     id: "fanta-apito",
@@ -32,6 +33,21 @@ export const availableDrinks: Drink[] = [
     image: fantaApito,
     health: 25,
     thirst: 35,
+    phrases: [
+      "🚂 \"Tome uma Fanta Apito e faça a festa apitar!\"",
+      "😄 \"Se for assobiar de tão gostosa, avisa a gente!\""
+    ],
+  },
+  {
+    id: "fanta-noz-esquilo",
+    name: "Fanta Noz de Esquilo",
+    image: fantaNozEsquilo,
+    health: 15,
+    thirst: 25,
+    phrases: [
+      "🐿️ \"Tão gostosa que até esquilo esquece onde esconde!\"",
+      "🥜 \"Sabor Noz de Esquilo: crocante de felicidade na primeira golada!\""
+    ],
   },
 ];
 

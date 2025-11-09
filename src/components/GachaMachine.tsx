@@ -92,8 +92,12 @@ export const GachaMachine = ({ inventory, onInventoryUpdate, onShowCollection }:
             onInventoryUpdate(updatedInventory);
             setResult(prize);
 
+            // Selecionar frase aleatória
+            const randomPhrase = prize.phrases[Math.floor(Math.random() * prize.phrases.length)];
+
             toast.success(`🎉 Você ganhou: ${prize.name}!`, {
-              description: `+${prize.health} Saúde | +${prize.thirst} Sede`,
+              description: randomPhrase,
+              duration: 5000,
             });
           } else {
             toast.error("Que pena!", {

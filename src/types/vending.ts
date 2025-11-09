@@ -4,6 +4,7 @@ export interface Drink {
   image: string;
   health: number;
   thirst: number;
+  phrases: string[];
 }
 
 export interface InventoryItem {
