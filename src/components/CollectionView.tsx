@@ -141,39 +141,49 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
                        style={{ background: "var(--gradient-bg)" }}>
           {selectedDrink && (
             <div className="flex flex-col h-full max-h-[90vh]">
-              {/* Header Moderno com Gradiente */}
-              <div className="relative px-6 py-8 border-b-2 border-border/30 overflow-hidden"
-                   style={{ 
-                     background: "linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary) / 0.8) 50%, hsl(var(--primary) / 0.6) 100%)",
-                   }}>
-                {/* Efeito de Brilho Animado */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse opacity-50" />
+              {/* Header Moderno Premium */}
+              <div className="relative bg-gradient-to-br from-primary via-primary/90 to-primary/70 overflow-hidden">
+                {/* Padrão de Fundo Animado */}
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent animate-pulse" />
+                </div>
                 
-                {/* Decoração de Cantos */}
-                <div className="absolute top-4 left-4 text-3xl opacity-30">✨</div>
-                <div className="absolute top-4 right-4 text-3xl opacity-30">✨</div>
+                {/* Elementos Decorativos */}
+                <div className="absolute -top-10 -left-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
+                <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-3xl" />
                 
-                <div className="relative z-10 space-y-4">
+                <div className="relative z-10 px-6 py-6 space-y-5">
                   {/* Botão Voltar Moderno */}
                   <Button
                     onClick={() => setSelectedDrink(null)}
                     variant="secondary"
                     size="lg"
-                    className="flex items-center gap-2 bg-background/95 hover:bg-background text-foreground border-2 border-border/50 font-bold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                    className="bg-white/95 hover:bg-white text-primary border-0 font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5"
                   >
-                    <ArrowLeft className="h-5 w-5" />
-                    Voltar
+                    <ArrowLeft className="h-5 w-5 mr-2" />
+                    Voltar para Coleção
                   </Button>
                   
-                  {/* Nome da Bebida com Estilo */}
-                  <DialogHeader>
-                    <DialogTitle className="text-3xl md:text-4xl font-bold text-center text-primary-foreground drop-shadow-2xl">
-                      <span className="inline-block animate-fade-in">
-                        {selectedDrink.name}
+                  {/* Nome da Bebida com Badge */}
+                  <div className="space-y-3">
+                    <div className="flex justify-center">
+                      <span className="px-4 py-1.5 bg-white/20 backdrop-blur-sm rounded-full text-xs font-bold text-white/90 uppercase tracking-wider border border-white/30">
+                        Bebida Especial
                       </span>
-                    </DialogTitle>
-                  </DialogHeader>
+                    </div>
+                    
+                    <DialogHeader>
+                      <DialogTitle className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white drop-shadow-2xl leading-tight">
+                        <span className="inline-block animate-fade-in">
+                          {selectedDrink.name}
+                        </span>
+                      </DialogTitle>
+                    </DialogHeader>
+                  </div>
                 </div>
+                
+                {/* Borda Inferior Decorativa */}
+                <div className="h-1 bg-gradient-to-r from-transparent via-white/30 to-transparent" />
               </div>
 
               {/* Conteúdo Scrollável */}
