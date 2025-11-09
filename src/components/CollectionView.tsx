@@ -83,11 +83,11 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
                 </p>
                 
                 {isUnlocked && (
-                  <div className="flex justify-center gap-3 text-sm">
-                    <span className="flex items-center gap-1 text-destructive">
+                  <div className="flex justify-center gap-2">
+                    <span className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500/20 border-2 border-red-500/50 text-red-600 dark:text-red-400 font-bold text-sm">
                       ❤️ {drink.health}
                     </span>
-                    <span className="flex items-center gap-1 text-accent">
+                    <span className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-blue-500/20 border-2 border-blue-500/50 text-blue-600 dark:text-blue-400 font-bold text-sm">
                       💧 {drink.thirst}
                     </span>
                   </div>

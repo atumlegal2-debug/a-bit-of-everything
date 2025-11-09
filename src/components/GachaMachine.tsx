@@ -164,13 +164,17 @@ export const GachaMachine = ({ inventory, onInventoryUpdate, onShowCollection }:
                   <Sparkles className="absolute top-0 right-0 text-primary animate-pulse" />
                 )}
               </div>
-              <div className="mt-2 text-center">
+              <div className="mt-2 text-center space-y-2">
                 <p className="font-bold text-sm text-foreground truncate">
                   {drink.name}
                 </p>
-                <div className="flex justify-center gap-2 mt-1 text-xs">
-                  <span className="text-destructive">❤️ {drink.health}</span>
-                  <span className="text-accent">💧 {drink.thirst}</span>
+                <div className="flex justify-center gap-2">
+                  <span className="flex items-center gap-1 px-2 py-1 rounded-md bg-red-500/20 border border-red-500/50 text-red-600 dark:text-red-400 font-bold text-xs">
+                    ❤️ {drink.health}
+                  </span>
+                  <span className="flex items-center gap-1 px-2 py-1 rounded-md bg-blue-500/20 border border-blue-500/50 text-blue-600 dark:text-blue-400 font-bold text-xs">
+                    💧 {drink.thirst}
+                  </span>
                 </div>
               </div>
             </div>
