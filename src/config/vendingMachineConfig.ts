@@ -1,10 +1,8 @@
 import { VendingMachineConfig } from "@/types/vending";
-import sodaCola from "@/assets/soda-cola.jpg";
-import sodaOrange from "@/assets/soda-orange.jpg";
-import chipsBBQ from "@/assets/chips-bbq.jpg";
-import chocolate from "@/assets/chocolate.jpg";
-import water from "@/assets/water.jpg";
-import cheesePuffs from "@/assets/cheese-puffs.jpg";
+import fantaNozEsquilo from "@/assets/fanta-noz-esquilo.png";
+import fantaCafeBrasil from "@/assets/fanta-cafe-brasil.png";
+import fantaAcademia from "@/assets/fanta-academia.png";
+import fantaApito from "@/assets/fanta-apito.png";
 
 /**
  * CONFIGURAÇÃO DA MÁQUINA DE VENDAS
@@ -18,15 +16,15 @@ import cheesePuffs from "@/assets/cheese-puffs.jpg";
 
 export const vendingMachineConfig: VendingMachineConfig = {
   slots: [
-    // LINHA A (Superior)
+    // LINHA A - Fanta Noz de Esquilo
     {
       id: "slot-a1",
       code: "A1",
       position: { top: "0", left: "0", width: "100%", height: "auto" },
       product: {
-        name: "Coca-Cola",
-        price: 5.50,
-        image: sodaCola,
+        name: "Fanta Noz de Esquilo",
+        price: 6.00,
+        image: fantaNozEsquilo,
         stock: 10,
         actionType: "cart",
       },
@@ -36,10 +34,10 @@ export const vendingMachineConfig: VendingMachineConfig = {
       code: "A2",
       position: { top: "0", left: "0", width: "100%", height: "auto" },
       product: {
-        name: "Fanta Laranja",
-        price: 5.00,
-        image: sodaOrange,
-        stock: 8,
+        name: "Fanta Noz de Esquilo",
+        price: 6.00,
+        image: fantaNozEsquilo,
+        stock: 10,
         actionType: "cart",
       },
     },
@@ -48,24 +46,24 @@ export const vendingMachineConfig: VendingMachineConfig = {
       code: "A3",
       position: { top: "0", left: "0", width: "100%", height: "auto" },
       product: {
-        name: "Água Mineral",
-        price: 3.00,
-        image: water,
-        stock: 15,
+        name: "Fanta Noz de Esquilo",
+        price: 6.00,
+        image: fantaNozEsquilo,
+        stock: 10,
         actionType: "cart",
       },
     },
 
-    // LINHA B (Meio)
+    // LINHA B - Fanta Café do Brasil
     {
       id: "slot-b1",
       code: "B1",
       position: { top: "0", left: "0", width: "100%", height: "auto" },
       product: {
-        name: "Ruffles BBQ",
-        price: 7.50,
-        image: chipsBBQ,
-        stock: 12,
+        name: "Fanta Café do Brasil",
+        price: 6.50,
+        image: fantaCafeBrasil,
+        stock: 8,
         actionType: "cart",
       },
     },
@@ -74,10 +72,10 @@ export const vendingMachineConfig: VendingMachineConfig = {
       code: "B2",
       position: { top: "0", left: "0", width: "100%", height: "auto" },
       product: {
-        name: "Cheetos",
+        name: "Fanta Café do Brasil",
         price: 6.50,
-        image: cheesePuffs,
-        stock: 3,
+        image: fantaCafeBrasil,
+        stock: 8,
         actionType: "cart",
       },
     },
@@ -86,23 +84,23 @@ export const vendingMachineConfig: VendingMachineConfig = {
       code: "B3",
       position: { top: "0", left: "0", width: "100%", height: "auto" },
       product: {
-        name: "Chocolate Lacta",
-        price: 4.50,
-        image: chocolate,
-        stock: 20,
+        name: "Fanta Café do Brasil",
+        price: 6.50,
+        image: fantaCafeBrasil,
+        stock: 8,
         actionType: "cart",
       },
     },
 
-    // LINHA C (Inferior)
+    // LINHA C - Fanta Academia
     {
       id: "slot-c1",
       code: "C1",
       position: { top: "0", left: "0", width: "100%", height: "auto" },
       product: {
-        name: "Ruffles BBQ",
-        price: 7.50,
-        image: chipsBBQ,
+        name: "Fanta Academia",
+        price: 6.00,
+        image: fantaAcademia,
         stock: 12,
         actionType: "cart",
       },
@@ -112,10 +110,10 @@ export const vendingMachineConfig: VendingMachineConfig = {
       code: "C2",
       position: { top: "0", left: "0", width: "100%", height: "auto" },
       product: {
-        name: "Cheetos",
-        price: 6.50,
-        image: cheesePuffs,
-        stock: 3,
+        name: "Fanta Academia",
+        price: 6.00,
+        image: fantaAcademia,
+        stock: 12,
         actionType: "cart",
       },
     },
@@ -124,10 +122,48 @@ export const vendingMachineConfig: VendingMachineConfig = {
       code: "C3",
       position: { top: "0", left: "0", width: "100%", height: "auto" },
       product: {
-        name: "Chocolate Lacta",
-        price: 4.50,
-        image: chocolate,
-        stock: 20,
+        name: "Fanta Academia",
+        price: 6.00,
+        image: fantaAcademia,
+        stock: 12,
+        actionType: "cart",
+      },
+    },
+
+    // LINHA D - Fanta Apito
+    {
+      id: "slot-d1",
+      code: "D1",
+      position: { top: "0", left: "0", width: "100%", height: "auto" },
+      product: {
+        name: "Fanta Apito",
+        price: 5.50,
+        image: fantaApito,
+        stock: 15,
+        actionType: "cart",
+      },
+    },
+    {
+      id: "slot-d2",
+      code: "D2",
+      position: { top: "0", left: "0", width: "100%", height: "auto" },
+      product: {
+        name: "Fanta Apito",
+        price: 5.50,
+        image: fantaApito,
+        stock: 15,
+        actionType: "cart",
+      },
+    },
+    {
+      id: "slot-d3",
+      code: "D3",
+      position: { top: "0", left: "0", width: "100%", height: "auto" },
+      product: {
+        name: "Fanta Apito",
+        price: 5.50,
+        image: fantaApito,
+        stock: 15,
         actionType: "cart",
       },
     },
