@@ -141,17 +141,19 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
                        style={{ background: "var(--gradient-bg)" }}>
           {selectedDrink && (
             <div className="flex flex-col h-full max-h-[90vh]">
-              {/* Header Medieval Fixo */}
-              <div className="relative px-6 py-4 border-b-4 border-primary/30"
+              {/* Header Medieval Fixo com Botão de Voltar */}
+              <div className="relative px-6 py-6 border-b-4 border-primary/30"
                    style={{ background: "var(--gradient-gold)" }}>
-                <Button
-                  onClick={() => setSelectedDrink(null)}
-                  variant="outline"
-                  size="icon"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80 hover:bg-background border-2 border-primary/40"
-                >
-                  <ArrowLeft className="h-5 w-5" />
-                </Button>
+                <div className="flex items-center justify-between mb-3">
+                  <Button
+                    onClick={() => setSelectedDrink(null)}
+                    variant="default"
+                    className="flex items-center gap-2 bg-background/90 hover:bg-background text-foreground border-2 border-primary/50 font-bold"
+                  >
+                    <ArrowLeft className="h-5 w-5" />
+                    Voltar
+                  </Button>
+                </div>
                 
                 <DialogHeader>
                   <DialogTitle className="text-2xl md:text-3xl font-bold text-center text-primary-foreground drop-shadow-lg">
@@ -241,7 +243,7 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
                   </div>
                 </div>
 
-                {/* Frases em Pergaminho */}
+                {/* Frases em Pergaminho - Melhor Legibilidade */}
                 <div className="space-y-4">
                   <h3 className="text-xl font-bold text-transparent bg-clip-text flex items-center gap-2"
                       style={{ backgroundImage: "var(--gradient-gold)" }}>
@@ -251,15 +253,11 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
                   {selectedDrink.phrases.map((phrase, index) => (
                     <div 
                       key={index} 
-                      className="relative p-5 rounded-xl border-3 border-primary/40 shadow-lg"
-                      style={{ 
-                        background: "var(--gradient-secondary)",
-                        boxShadow: "0 4px 20px rgba(0,0,0,0.15)"
-                      }}
+                      className="relative p-6 rounded-xl border-3 border-primary/50 shadow-2xl bg-card"
                     >
-                      <div className="absolute top-3 left-3 text-3xl opacity-10">📜</div>
-                      <div className="absolute bottom-3 right-3 text-3xl opacity-10 rotate-180">📜</div>
-                      <p className="relative text-base md:text-lg text-foreground leading-relaxed font-medium text-center px-8 py-2">
+                      <div className="absolute top-3 left-3 text-3xl opacity-20">📜</div>
+                      <div className="absolute bottom-3 right-3 text-3xl opacity-20 rotate-180">📜</div>
+                      <p className="relative text-lg md:text-xl text-foreground leading-relaxed font-semibold text-center px-10 py-3">
                         "{phrase}"
                       </p>
                     </div>
