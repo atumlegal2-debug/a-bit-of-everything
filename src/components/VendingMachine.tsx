@@ -40,24 +40,29 @@ export const VendingMachine = () => {
 
         // Converter para formato do inventário, mapeando imagens do config
         const drinks = items?.map(item => {
-          // Buscar a bebida no config para pegar a imagem correta
-          const drinkConfig = availableDrinks.find(d => d.id === item.item_name || d.name === item.item_name);
+          // Buscar a bebida no config pelo ID ou pelo nome (para compatibilidade)
+          const drinkConfig = availableDrinks.find(d => 
+            d.id === item.item_name || 
+            d.name === item.item_name ||
+            d.id.toLowerCase().replace(/-/g, ' ') === item.item_name.toLowerCase() ||
+            d.name.toLowerCase() === item.item_name.toLowerCase()
+          );
           
           return {
-            drinkId: item.item_name,
+            drinkId: drinkConfig?.id || item.item_name,
             quantity: item.quantity,
             drink: {
-              id: item.item_name,
-              name: item.item_name,
-              image: drinkConfig?.image || item.image_url || "",
+              id: drinkConfig?.id || item.item_name,
+              name: drinkConfig?.name || item.item_name,
+              image: drinkConfig?.image || "",
               health: drinkConfig?.health || 0,
               thirst: drinkConfig?.thirst || 0,
               phrases: drinkConfig?.phrases || [],
             },
           };
-        }) || [];
+        }).filter(d => d.drink.image) || []; // Filtrar apenas bebidas com imagem
 
-        const collection = [...new Set(items?.map(item => item.item_name) || [])];
+        const collection = drinks.map(d => d.drinkId);
 
         setInventory({
           coins: profile.wallet_balance,
@@ -100,13 +105,30 @@ export const VendingMachine = () => {
 
       if (newDrink) {
         try {
-          await supabase.from("inventory_items").insert({
-            profile_id: user.id,
-            item_name: newDrink.drink.name,
-            item_type: "drink",
-            quantity: newDrink.quantity,
-            image_url: newDrink.drink.image,
-          });
+          // Buscar se já existe
+          const { data: existing } = await supabase
+            .from("inventory_items")
+            .select("*")
+            .eq("profile_id", user.id)
+            .eq("item_name", newDrink.drinkId) // Usar ID ao invés do nome
+            .maybeSingle();
+
+          if (existing) {
+            // Atualizar quantidade
+            await supabase
+              .from("inventory_items")
+              .update({ quantity: existing.quantity + 1 })
+              .eq("id", existing.id);
+          } else {
+            // Inserir novo item
+            await supabase.from("inventory_items").insert({
+              profile_id: user.id,
+              item_name: newDrink.drinkId, // Salvar o ID ao invés do nome
+              item_type: "drink",
+              quantity: 1,
+              image_url: newDrink.drink.image,
+            });
+          }
         } catch (error: any) {
           console.error("Erro ao salvar item:", error);
         }
