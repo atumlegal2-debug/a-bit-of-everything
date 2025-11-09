@@ -11,7 +11,6 @@ export const availableDrinks: Drink[] = [
     image: fantaNozEsquilo,
     health: 15,
     thirst: 25,
-    rarity: 'rare',
   },
   {
     id: "fanta-cafe-brasil",
@@ -19,7 +18,6 @@ export const availableDrinks: Drink[] = [
     image: fantaCafeBrasil,
     health: 10,
     thirst: 30,
-    rarity: 'common',
   },
   {
     id: "fanta-academia",
@@ -27,7 +25,6 @@ export const availableDrinks: Drink[] = [
     image: fantaAcademia,
     health: 20,
     thirst: 20,
-    rarity: 'epic',
   },
   {
     id: "fanta-apito",
@@ -35,7 +32,6 @@ export const availableDrinks: Drink[] = [
     image: fantaApito,
     health: 25,
     thirst: 35,
-    rarity: 'legendary',
   },
 ];
 

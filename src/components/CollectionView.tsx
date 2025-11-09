@@ -9,24 +9,6 @@ interface CollectionViewProps {
 }
 
 export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
-  const getRarityColor = (rarity: string) => {
-    switch (rarity) {
-      case 'legendary': return 'border-yellow-400 bg-yellow-400/10';
-      case 'epic': return 'border-purple-400 bg-purple-400/10';
-      case 'rare': return 'border-blue-400 bg-blue-400/10';
-      default: return 'border-gray-400 bg-gray-400/10';
-    }
-  };
-
-  const getRarityLabel = (rarity: string) => {
-    switch (rarity) {
-      case 'legendary': return '🏆 Lendária';
-      case 'epic': return '💎 Épica';
-      case 'rare': return '⭐ Rara';
-      default: return '⚪ Comum';
-    }
-  };
-
   return (
     <div className="flex flex-col h-full w-full max-w-5xl mx-auto p-4 gap-6">
       {/* Header */}
@@ -67,17 +49,12 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
           return (
             <div
               key={drink.id}
-              className={`relative rounded-xl p-4 border-4 transition-all ${getRarityColor(drink.rarity)}`}
+              className="relative rounded-xl p-4 border-4 border-primary/30 transition-all"
               style={{
                 background: isUnlocked ? "var(--gradient-wood)" : "var(--gradient-stone)",
                 filter: isUnlocked ? 'none' : 'grayscale(100%) brightness(0.3)',
               }}
             >
-              {/* Rarity Badge */}
-              <div className="absolute top-2 right-2 text-xs font-bold px-2 py-1 rounded-full bg-background/80">
-                {getRarityLabel(drink.rarity)}
-              </div>
-
               {/* Quantity Badge */}
               {isUnlocked && quantity > 0 && (
                 <div className="absolute top-2 left-2 text-sm font-bold px-2 py-1 rounded-full bg-primary text-primary-foreground">

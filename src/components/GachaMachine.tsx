@@ -16,32 +16,15 @@ export const GachaMachine = ({ inventory, onInventoryUpdate, onShowCollection }:
   const [currentHighlight, setCurrentHighlight] = useState(0);
   const [result, setResult] = useState<Drink | null>(null);
 
-  const getRarityColor = (rarity: string) => {
-    switch (rarity) {
-      case 'legendary': return 'hsl(45 95% 50%)'; // gold
-      case 'epic': return 'hsl(280 70% 60%)'; // purple
-      case 'rare': return 'hsl(210 80% 55%)'; // blue
-      default: return 'hsl(0 0% 70%)'; // gray
-    }
-  };
-
   const getDropChance = () => {
     const rand = Math.random() * 100;
     
     // 40% chance de não ganhar nada
     if (rand < 40) return null;
     
-    // 30% common
-    if (rand < 70) return availableDrinks.find(d => d.rarity === 'common') || availableDrinks[0];
-    
-    // 20% rare
-    if (rand < 90) return availableDrinks.find(d => d.rarity === 'rare') || availableDrinks[0];
-    
-    // 8% epic
-    if (rand < 98) return availableDrinks.find(d => d.rarity === 'epic') || availableDrinks[0];
-    
-    // 2% legendary
-    return availableDrinks.find(d => d.rarity === 'legendary') || availableDrinks[0];
+    // 60% chance de ganhar uma bebida aleatória
+    const randomIndex = Math.floor(Math.random() * availableDrinks.length);
+    return availableDrinks[randomIndex];
   };
 
   const handleSpin = () => {
@@ -167,7 +150,7 @@ export const GachaMachine = ({ inventory, onInventoryUpdate, onShowCollection }:
                   ? "var(--gradient-gold)"
                   : "var(--gradient-stone)",
                 borderColor: currentHighlight === index && isSpinning
-                  ? getRarityColor(drink.rarity)
+                  ? 'hsl(var(--primary))'
                   : 'hsl(var(--border))',
               }}
             >

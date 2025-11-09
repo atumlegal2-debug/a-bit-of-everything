@@ -4,7 +4,6 @@ export interface Drink {
   image: string;
   health: number;
   thirst: number;
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
 }
 
 export interface InventoryItem {
