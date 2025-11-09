@@ -1,32 +1,20 @@
-export type ProductAction = "cart" | "link" | "modal" | "custom";
-
-export interface ProductSlot {
+export interface Drink {
   id: string;
-  code: string;
-  position: {
-    top: string;
-    left: string;
-    width: string;
-    height: string;
-  };
-  product?: {
-    name: string;
-    price: number;
-    image: string;
-    stock: number;
-    actionType: ProductAction;
-    actionData?: string; // URL para links, ou dados customizados
-  };
-}
-
-export interface VendingMachineConfig {
-  backgroundImage?: string;
-  slots: ProductSlot[];
-}
-
-export interface CartItem {
-  productId: string;
-  quantity: number;
   name: string;
-  price: number;
+  image: string;
+  health: number;
+  thirst: number;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+}
+
+export interface InventoryItem {
+  drinkId: string;
+  quantity: number;
+  drink: Drink;
+}
+
+export interface PlayerInventory {
+  coins: number;
+  drinks: InventoryItem[];
+  collection: string[]; // IDs das bebidas já obtidas pelo menos uma vez
 }
