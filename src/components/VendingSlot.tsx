@@ -1,5 +1,4 @@
 import { ProductSlot } from "@/types/vending";
-import { Badge } from "@/components/ui/badge";
 import { Package } from "lucide-react";
 
 interface VendingSlotProps {
@@ -9,93 +8,48 @@ interface VendingSlotProps {
 }
 
 export const VendingSlot = ({ slot, onSlotClick, quantity }: VendingSlotProps) => {
-  const { code, position, product } = slot;
+  const { code, product } = slot;
   const isOutOfStock = product && product.stock === 0;
-  const isLowStock = product && product.stock > 0 && product.stock <= 3;
 
   return (
     <div
-      className="absolute cursor-pointer group transition-all duration-300"
-      style={{
-        top: position.top,
-        left: position.left,
-        width: position.width,
-        height: position.height,
-      }}
-      onClick={() => !isOutOfStock && onSlotClick(slot)}
+      className="flex flex-col gap-2 cursor-pointer items-center text-center group"
+      onClick={() => !isOutOfStock && product && onSlotClick(slot)}
     >
-      {/* Slot Code Label */}
-      <Badge 
-        className="absolute -top-3 -left-2 z-20 bg-primary text-primary-foreground px-2.5 py-1 text-xs font-bold shadow-lg"
-      >
-        {code}
-      </Badge>
-
-      {/* Slot Container */}
-      <div className="relative w-full h-full rounded-lg border-2 border-border bg-card/80 backdrop-blur-sm overflow-hidden shadow-product group-hover:shadow-xl group-hover:border-primary/50 transition-all">
+      {/* Product Container */}
+      <div className="relative flex h-28 w-full items-center justify-center rounded-lg bg-white/10 p-1 transition-all group-hover:bg-white/20">
         {product ? (
           <>
-            {/* Product Image */}
-            <div className="absolute inset-0 flex items-center justify-center p-2">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
-              />
-            </div>
-
-            {/* Product Info Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-card via-card/95 to-transparent p-2 pt-8">
-              <p className="text-xs font-semibold text-foreground truncate mb-0.5">
-                {product.name}
-              </p>
-              <p className="text-sm font-bold text-primary">
-                R$ {product.price.toFixed(2)}
-              </p>
-            </div>
-
-            {/* Stock Badge */}
-            {isLowStock && (
-              <Badge 
-                variant="secondary" 
-                className="absolute top-2 right-2 text-xs bg-accent text-accent-foreground"
-              >
-                Últimas {product.stock}
-              </Badge>
-            )}
-
-            {/* Out of Stock Overlay */}
+            <img
+              src={product.image}
+              alt={product.name}
+              className="h-full w-auto object-contain transition-transform group-hover:scale-110"
+            />
             {isOutOfStock && (
-              <div className="absolute inset-0 bg-muted/90 backdrop-blur-sm flex items-center justify-center">
-                <Badge variant="destructive" className="text-sm font-bold">
-                  Esgotado
-                </Badge>
+              <div className="absolute inset-0 bg-vending-black/80 flex items-center justify-center rounded-lg">
+                <span className="text-red-500 text-xs font-bold">ESGOTADO</span>
               </div>
             )}
-
-            {/* Quantity Badge */}
             {quantity > 0 && (
-              <Badge 
-                className="absolute top-2 left-2 z-10 bg-accent text-accent-foreground h-7 w-7 flex items-center justify-center p-0 text-sm font-bold"
-              >
+              <div className="absolute top-1 left-1 bg-green-500 text-white h-5 w-5 flex items-center justify-center rounded-full text-xs font-bold">
                 {quantity}
-              </Badge>
+              </div>
             )}
-
-            {/* Hover Effect */}
-            <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/10 transition-colors pointer-events-none" />
           </>
         ) : (
-          // Empty Slot Placeholder
-          <div className="w-full h-full flex flex-col items-center justify-center border-2 border-dashed border-border/50 bg-muted/20">
-            <Package className="h-8 w-8 text-muted-foreground/30 mb-2" />
-            <p className="text-xs text-muted-foreground/50">Vazio</p>
+          <div className="flex flex-col items-center justify-center">
+            <Package className="h-8 w-8 text-white/20" />
           </div>
         )}
       </div>
 
-      {/* Glass Reflection Effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none rounded-lg" />
+      {/* Product Info */}
+      <div className="text-white">
+        <p className="text-xs font-medium leading-tight truncate">
+          {product?.name || "Vazio"}
+        </p>
+        <p className="text-xs font-bold text-amber-300">{code}</p>
+      </div>
     </div>
   );
 };
