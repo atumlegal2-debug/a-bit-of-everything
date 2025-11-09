@@ -137,82 +137,85 @@ export const CollectionView = ({ inventory, onBack }: CollectionViewProps) => {
 
       {/* Dialog de Detalhes */}
       <Dialog open={!!selectedDrink} onOpenChange={() => setSelectedDrink(null)}>
-        <DialogContent className="max-w-lg border-4 border-primary/40 p-0 gap-0 overflow-hidden">
+        <DialogContent className="max-w-2xl border-none p-0 gap-0 overflow-hidden bg-background/95 backdrop-blur-xl">
           {selectedDrink && (
             <div className="relative">
-              {/* Header com Gradiente */}
-              <div className="relative p-6 pb-4" style={{ background: "var(--gradient-gold)" }}>
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-background/20" />
-                <DialogHeader className="relative z-10">
-                  <DialogTitle className="text-3xl font-bold text-center text-primary-foreground drop-shadow-lg">
-                    ✨ {selectedDrink.name} ✨
+              {/* Header Moderno */}
+              <div className="relative px-8 py-6 bg-gradient-to-br from-primary/20 via-primary/10 to-transparent border-b border-border/50">
+                <DialogHeader>
+                  <DialogTitle className="text-3xl font-bold text-center text-foreground">
+                    {selectedDrink.name}
                   </DialogTitle>
                 </DialogHeader>
               </div>
 
-              <div className="p-6 space-y-6" style={{ background: "var(--gradient-bg)" }}>
-                {/* Imagem Grande com Destaque */}
-                <div className="relative w-full aspect-square rounded-2xl p-8 border-4 border-primary/30 shadow-2xl transform hover:scale-105 transition-transform duration-300"
-                     style={{ 
-                       background: "var(--gradient-wood)",
-                       boxShadow: "var(--shadow-gold)"
-                     }}>
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent" />
-                  <img
-                    src={selectedDrink.image}
-                    alt={selectedDrink.name}
-                    className="relative z-10 w-full h-full object-contain drop-shadow-2xl animate-fade-in"
-                  />
+              <div className="p-8 space-y-8">
+                {/* Imagem e Stats lado a lado */}
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                  {/* Imagem */}
+                  <div className="relative aspect-square rounded-2xl p-6 bg-gradient-to-br from-primary/5 to-primary/10 border border-border/50 shadow-lg">
+                    <img
+                      src={selectedDrink.image}
+                      alt={selectedDrink.name}
+                      className="w-full h-full object-contain drop-shadow-2xl"
+                    />
+                  </div>
+
+                  {/* Stats */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold text-foreground mb-4">Atributos</h3>
+                    
+                    <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-red-500/10 to-red-500/5 border border-red-500/20">
+                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-red-500/20">
+                        <span className="text-2xl">❤️</span>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground font-medium">Saúde</p>
+                        <p className="text-2xl font-bold text-red-600 dark:text-red-400">+{selectedDrink.health}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-blue-500/10 to-blue-500/5 border border-blue-500/20">
+                      <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/20">
+                        <span className="text-2xl">💧</span>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm text-muted-foreground font-medium">Sede</p>
+                        <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">+{selectedDrink.thirst}</p>
+                      </div>
+                    </div>
+
+                    {/* Quantidade */}
+                    {inventory.drinks.find(d => d.drinkId === selectedDrink.id) && (
+                      <div className="flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20">
+                        <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/20">
+                          <Package className="w-6 h-6 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm text-muted-foreground font-medium">Inventário</p>
+                          <p className="text-2xl font-bold text-primary">
+                            x{inventory.drinks.find(d => d.drinkId === selectedDrink.id)?.quantity}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
-                {/* Stats com Ícones Maiores */}
-                <div className="flex justify-center gap-4">
-                  <div className="flex flex-col items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-br from-red-500/30 to-red-600/20 border-2 border-red-500/60 shadow-lg">
-                    <span className="text-3xl">❤️</span>
-                    <span className="text-xl font-bold text-red-600 dark:text-red-400">
-                      {selectedDrink.health}
-                    </span>
-                    <span className="text-xs text-red-600/80 dark:text-red-400/80 font-semibold">Saúde</span>
-                  </div>
-                  <div className="flex flex-col items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-br from-blue-500/30 to-blue-600/20 border-2 border-blue-500/60 shadow-lg">
-                    <span className="text-3xl">💧</span>
-                    <span className="text-xl font-bold text-blue-600 dark:text-blue-400">
-                      {selectedDrink.thirst}
-                    </span>
-                    <span className="text-xs text-blue-600/80 dark:text-blue-400/80 font-semibold">Sede</span>
-                  </div>
-                </div>
-
-                {/* Frases com Estilo de Pergaminho */}
+                {/* Frases com Design Limpo */}
                 <div className="space-y-3">
+                  <h3 className="text-lg font-semibold text-foreground mb-3">Frases Especiais</h3>
                   {selectedDrink.phrases.map((phrase, index) => (
                     <div 
                       key={index} 
-                      className="relative p-4 rounded-xl border-2 border-primary/30 shadow-lg backdrop-blur-sm"
-                      style={{ background: "var(--gradient-secondary)" }}
+                      className="p-5 rounded-xl bg-gradient-to-br from-secondary/50 to-secondary/30 border border-border/50 hover:border-primary/30 transition-all duration-300"
                     >
-                      <div className="absolute top-2 left-2 text-2xl opacity-20">📜</div>
-                      <p className="text-center text-sm md:text-base font-medium text-foreground/90 italic leading-relaxed pl-6">
-                        {phrase}
+                      <p className="text-base text-foreground leading-relaxed font-medium">
+                        "{phrase}"
                       </p>
                     </div>
                   ))}
                 </div>
-
-                {/* Quantidade com Destaque */}
-                {inventory.drinks.find(d => d.drinkId === selectedDrink.id) && (
-                  <div className="relative text-center p-4 rounded-xl border-4 border-primary/40 overflow-hidden shadow-xl"
-                       style={{ 
-                         background: "var(--gradient-gold)",
-                         boxShadow: "var(--shadow-gold)"
-                       }}>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
-                    <p className="relative z-10 text-xl font-bold text-primary-foreground flex items-center justify-center gap-2">
-                      <Package className="w-5 h-5" />
-                      Você possui: x{inventory.drinks.find(d => d.drinkId === selectedDrink.id)?.quantity}
-                    </p>
-                  </div>
-                )}
               </div>
             </div>
           )}
