@@ -191,18 +191,29 @@ export const GachaMachine = ({ inventory, onInventoryUpdate, onShowCollection }:
         onClick={handleSpin}
         disabled={isSpinning || inventory.coins < GACHA_COST}
         size="lg"
-        className="w-full h-16 text-xl font-bold"
+        className="relative w-full h-16 text-xl font-bold overflow-hidden border-4 border-primary/50 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl disabled:opacity-50 disabled:hover:scale-100"
+        style={{
+          background: isSpinning 
+            ? "var(--gradient-secondary)" 
+            : "var(--gradient-gold)",
+          boxShadow: isSpinning ? "none" : "var(--shadow-gold)",
+        }}
       >
-        {isSpinning ? (
-          <>
-            <Sparkles className="mr-2 h-6 w-6 animate-spin" />
-            Girando...
-          </>
-        ) : (
-          <>
-            🎲 Tentar a Sorte ({GACHA_COST} moedas)
-          </>
+        {!isSpinning && (
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
         )}
+        <span className="relative z-10 flex items-center justify-center gap-2">
+          {isSpinning ? (
+            <>
+              <Sparkles className="h-6 w-6 animate-spin" />
+              Girando...
+            </>
+          ) : (
+            <>
+              🎲 Tentar a Sorte ({GACHA_COST} moedas)
+            </>
+          )}
+        </span>
       </Button>
 
       {/* Inventory Summary */}
